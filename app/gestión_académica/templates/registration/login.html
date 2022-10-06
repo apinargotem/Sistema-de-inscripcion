@@ -1,0 +1,89 @@
+{% include  'base.html' %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/static/imagenes/uni.ico" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- Styles -->
+  <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+  <title>Iniciar Sesion</title>
+</head>
+<style>
+  
+  body{
+        background-image: url("{%static 'assets/images/meetings-bg.jpg'%}");
+    }
+  .card-text {
+    display: block;
+    margin-right: 50%;
+    margin-left: 50%;
+  }
+
+  input {
+    height: 50px;
+    width: 300px;
+  }
+
+  label {
+    height: 50px;
+    width: 300px;
+  }
+
+
+.r{
+  margin: 50px;
+    text-decoration: none;
+}
+
+  .errorlist {
+    color: red;
+  }
+</style>
+
+<body>
+
+  <br>
+
+  <div class="modal-dialog text-center">
+    <div class="modal-content">
+      <div class="modal-header">
+       <a type="button" class="btn-close"  href="/index/"></a>
+      </div>
+          <p style="color:brown" >Aún no tienes una cuenta?  <a class="r" href="/registro/">Crear cuenta</a> </p>
+      <div align="center">
+
+      <img src="{% static 'imagenes/usuario.png' %}" width="150px" />
+    </div>
+      <br>
+      <div class="modal-body">
+        <form method="post">
+          {%csrf_token%}
+
+          {{form}}
+          <br>
+          <br>
+          <input class="btn btn-primary" style="background-color: brown; border-color: brown" type="submit" value="Ingresar">
+        </form>
+      </div>
+      <div class="modal-footer">
+     
+
+    
+        <a class="r" href="/index/">Regresar al menú principal</a>
+
+
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

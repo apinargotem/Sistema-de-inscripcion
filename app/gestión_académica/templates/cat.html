@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <title>Cursos</title>
+    <!-- Bootstrap -->
+    <link rel="shortcut icon" href="/static/imagenes/uni.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Styles -->
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+</head>
+<style>
+    body{
+        background-image: url("{%static 'assets/images/t.jpg'%}");
+    }
+    .card-body{
+      
+      background-color: rgba(242, 236, 236, 0.293);
+   }
+    h1{
+        color:white;
+    }
+    .form-inline{
+        width: 300px;
+    }
+    .btn-primary{
+        background-color: brown;
+        border-color: brown;
+    }
+</style>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index"><img src="/static/imagenes/uni.ico" alt=""> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/cursos">Cursos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Consultas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/contenido">Consulta de cursos inscritos</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Contactos y atención al cliente
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/contac">Contacténos</a></li>
+                            <li><a class="dropdown-item" href="/atencion">Atención al cliente</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        {%if user.is_authenticated%}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/logout">Cerrar sesión</a>
+                    </li>
+                    <li>
+                        <a style="color:brown" class="nav-link" href="">{{user.username}}</a>
+                    </li>
+                    {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login" tabindex="-1" aria-disabled="true" >Inicio de
+                            Sesión</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registro" tabindex="-1" aria-disabled="true">Crear cuenta</a>
+                    </li>
+                    {%endif%}
+
+                    <a class="navbar-brand" href="/carrito"><img src="/static/imagenes/carrito.png" width="32px"
+                            alt=""><b style="color:brown">{{total_cantidad}}</b> </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                </ul>
+
+            </div>
+        </div>
+
+    </nav>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 align-self-center">
+                <h1 class="display-1">Cursos</h1>
+            </div>
+        </div>
+        <br>
+        <div class=container>
+            <form class="form-inline my-2 my-lg-0 mr-4" action="{%url 'consultar'%}">
+                <input class=" form-control mr-sm-2" name="busemp" type="search" placeholder=" Buscar"
+                    aria-label="search">
+                <br>
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Buscar </button>
+            </form>
+        </div>
+        <br>
+        <div class="col-md-3 order-1 mb-5 mb-md-0">
+            <div class="border p-4 rounded mb-4">
+                <h3 style="color:white"class="mb-3 h6 text-uppercase text-black d-block">Categorías</h3>
+                <ul class="list-unstyled mb-0">
+                    <li {% if not categorias %} class="mb-1" {% endif %}>
+                        <a href="/cursos" class="d-flex"><span>All</a>
+                    </li>
+                    {% for c in categorias %}
+                    <li {% if categoria.slug == c.slug %} class="mb-1" {% endif %}>
+                        <a href="{{ c.slug }}" class="d-flex">{{ c.Nombre }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <div align="center" class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            {%if cursos%}
+                            {% for producto in cursos%}
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 ">
+                                <div align="center" class="card text-center"
+                                    style="height: 25rem; width: 20rem;margin-top:10px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{producto.Nombre}}</h5>
+                                        <a href="{{producto.slug}}"><img class="card-text" src="{{producto.Imagen.url}}" alt="" width="200px"
+                                            height="200px"></a>
+                                        <p class="card-text" style="color:brown"><b>${{producto.Valor|floatformat:2}}</b></p>
+                                        <p class="card-text">Duración: {{producto.Horas}} Horas</p>
+                                        <a href="{% url 'Add' producto.Codigo %}" class="btn btn-primary">Agregar al
+                                            carrito</a>
+                                        <a href="{{producto.slug}}" class="btn btn-primary">Detalles</a>  
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {%else%}
+                        <h3>No existen cursos disponibles</h3>
+                        {%endif%}
+                        {% block filejs %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    {%for m in messages%}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            text:"{{m}}",
+            title: 'Enviado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {%endfor%}
+
+</body>
+
+</html>

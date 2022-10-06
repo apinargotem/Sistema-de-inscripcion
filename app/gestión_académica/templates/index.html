@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+
+    <title>Institución</title>
+    <!-- Bootstrap -->
+    <link rel="shortcut icon" href="/static/imagenes/uni.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/fc24b0a584.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Styles -->
+    <link href="{% static 'css/estilos.css' %}" rel="stylesheet">
+
+    <!-- Bootstrap core CSS -->
+
+
+
+    <link rel="stylesheet" href="{%static 'assets/css/templatemo-edu-meeting.css'%}">
+
+</head>
+<style>
+    html{
+        margin:0;
+
+    }
+    body {
+    margin: 0;
+    font-family: var(--bs-font-sans-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+.ab{
+    color:brown;
+    font-size: 30px;
+}
+h1{
+    color:#fff;
+}
+</style>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/index/"><img src="/static/imagenes/uni.ico" alt=""> </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+                aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/cursos/">Cursos</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Consultas
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/contenido/">Consulta de cursos inscritos y credenciales</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Contactos y atención al cliente
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/contac/">Contacténos</a></li>
+                            <li><a class="dropdown-item" href="/atencion/">Atención al cliente</a></li>
+                        </ul>
+                    </li>
+                  <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="http://localhost/moodle/">Aula virtual</a>
+                    </li>
+                    <li>
+                        {%if user.is_authenticated%}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/logout/">Cerrar sesión</a>
+                    </li>
+                    <li>
+                        <a style="color:brown" class="nav-link" href="">{{user.username}}</a>
+                    </li>
+                    {%else%}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accounts/login/" tabindex="-1" aria-disabled="true">Inicio de
+                            Sesión</a>
+                    </li>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/registro/" tabindex="-1" aria-disabled="true">Crear cuenta</a>
+                    </li>
+                    {%endif%}
+                </ul>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <!-- ***** Main Banner Area Start ***** -->
+    <section class="section main-banner" id="top" data-section="section1">
+        <video autoplay muted loop id="bg-video">
+            <source src="{%static 'assets/images/course-video.mp4'%}" type="video/mp4" />
+        </video>
+
+        <div class="video-overlay header-text">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="caption">
+                            <h6>Hola {{user.username}}</h6>
+                            <h1 class="display-2">Bienvenidos a Napan</h1>
+                            <br>
+                            <p style="font-size: 14pt">Aquí encontrarás los mejores cursos para que puedas seguirte preparando para la vida
+                                laboral, para obtener mayor información y comprar nuestros cursos creese una cuenta por favor.</p>
+
+                            <div class="main-button-red">
+                                <div class="scroll-to-section"><a href="/registro">Crear cuenta aquí!</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ***** Main Banner Area End ***** -->
+    <br>
+       <div align="center" class="row">
+       <h1 class="display-2" style="color:brown">Cursos disponibles</h1>
+           <br>
+           <br>
+           <br>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            {%if cursos%}
+                            {% for producto in cursos%}
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 ">
+                                <div align="center" class="card text-center"
+                                    style="height: 25rem; width: 20rem;margin-top:10px;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{producto.Nombre}}</h5>
+                                        <a href="{{ producto.slug }}"><img class="card-text" src="{{producto.Imagen.url}}" alt="" width="200px"
+                                            height="200px"></a>
+                                        <p class="card-text" style="color:brown"><b>${{producto.Valor|floatformat:2}}</b></p>
+                                        <p class="card-text">Duración: {{producto.Horas}} Horas</p>
+                                         <a href="{{ producto.slug }}" class="btn btn-primary" style="background-color:brown; border-color: brown">Detalles</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {%else%}
+                        <h3>No existen cursos disponibles</h3>
+                        {%endif%}
+                        {% block filejs %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <br>
+    <br>
+     <div class="main-button-red text-center">
+     <div class="scroll-to-section"><a href="/cursos/">Comprar cursos aquí!</a></div>
+ </div>
+    <br>
+    <br>
+    <section style="padding-top: 80px" class="upcoming-meetings" id="meetings">
+        <div class="container">
+            <div class="row">
+                      <h1 class="display-2 text-center">Atención al cliente</h1>
+                <div class="col-lg-6">
+                    <div class="section-heading">
+                    </div>
+                    <br>
+                    <img src="/static/imagenes/call.webp"  height="400px" alt="">
+                    <br>
+                    <br>
+
+                </div>
+
+<div class="col-lg-6">
+    <br>
+    <br>
+    <br>
+    <br>
+    <p style="color:white; font-size: 14pt">Para resolver sus dudas o preguntas ingrese a nuestro servicio de atención al cliente.</p>
+     <p style="color:white; font-size: 14pt">Estamos para servirte.</p>
+     <p style="color:white; font-size: 14pt">El horario de atención es de 8 am a 12pm y de 14 pm a 17 pm.</p>
+    <br>
+    <br>
+    <br>
+    <br>
+      <div class="main-button-red text-center">
+     <div class="scroll-to-section"><a href="/atencion/">Atención al cliente aquí!</a></div>
+ </div>
+</div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="" id="">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+
+                        <ul class="list-unstyled list-inline mt-4 text-center">
+                            <li class="list-inline-item">
+                                <a class="ab" href="https://es-la.facebook.com/">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a  class="ab" href="https://www.instagram.com/">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a  class="ab" href="https://twitter.com/i/flow/login?input_flow_data=%7B%22requested_variant%22%3A%22eyJsYW5nIjoiZXMifQ%3D%3D%22%7D">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a  class="ab" href="https://www.youtube.com/">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+
+    </section>
+
+
+    {%for m in messages%}
+    <script>
+        Swal.fire({
+            icon: 'success',
+            text: "{{m}}",
+            title: 'Enviado',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    </script>
+    {%endfor%}
+
+</body>
+<footer style="background-color:brown" align="center ">
+    <p style="color: white;">Copyright © 2022 NAPAN.
+        <br>
+        Milagro-Ecuador
+
+    </p>
+</footer>
+
+</html>
